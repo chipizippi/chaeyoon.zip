@@ -1,4 +1,4 @@
-const DATA_URL = "data/student_ai_impact.csv";
+const DATA_URLS = ["data/student_ai_impact.csv", "student_ai_impact.csv"];
 
 const VIEWS = {
   majorUseGpa: {
@@ -100,14 +100,26 @@ async function init() {
   }
 
   try {
-    const response = await fetch(DATA_URL);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const text = await response.text();
+    const text = await fetchFirstCsv(DATA_URLS);
     loadCsv(text, "기본 CSV");
   } catch (error) {
     el.sourceStatus.textContent = "CSV 파일 선택 필요";
     el.heatmap.innerHTML = `<div class="error">브라우저 보안 설정 때문에 CSV를 자동으로 읽지 못했습니다. 왼쪽에서 CSV 파일을 직접 선택해 주세요.</div>`;
   }
+}
+
+async function fetchFirstCsv(urls) {
+  let lastError;
+  for (const url of urls) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.text();
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
 }
 
 function bindControls() {
