@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI 학습 균형 지도</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Student AI Impact Dataset</p>
+        <h1>AI 학습 균형 지도</h1>
+      </div>
+      <div class="source-pill" id="sourceStatus">데이터 불러오는 중</div>
+    </header>
+
+    <main>
+      <section class="thesis">
+        <div>
+          <p class="eyebrow">Core Question</p>
+          <h2>생성형 AI는 학습을 돕는 도구일까, 의존 위험을 키우는 요인일까?</h2>
+        </div>
+        <p id="thesisText">
+          이 웹은 AI 사용량만 보지 않고 사용 목적, 공부 시간, 의존도, 학교 정책을 함께 비교해
+          성적 변화와 시험 불안, 번아웃 위험의 패턴을 살펴봅니다.
+        </p>
+      </section>
+
+      <section class="summary-grid" aria-label="요약 지표">
+        <article class="metric">
+          <span>학생 수</span>
+          <strong id="rowCount">-</strong>
+        </article>
+        <article class="metric">
+          <span>주간 AI 사용</span>
+          <strong id="avgAiHours">-</strong>
+        </article>
+        <article class="metric">
+          <span>시험 불안</span>
+          <strong id="avgAnxiety">-</strong>
+        </article>
+        <article class="metric">
+          <span>학습 유지</span>
+          <strong id="avgRetention">-</strong>
+        </article>
+        <article class="metric">
+          <span>GPA 변화량</span>
+          <strong id="avgGpaDelta">-</strong>
+        </article>
+      </section>
+
+      <section class="evidence-grid" aria-label="데이터 요약">
+        <article class="evidence-card">
+          <div class="section-head">
+            <p class="eyebrow">Use Case</p>
+            <h2>AI 사용 목적별 GPA 변화량</h2>
+          </div>
+          <div class="bar-list" id="usageBars"></div>
+        </article>
+
+        <article class="evidence-card">
+          <div class="section-head">
+            <p class="eyebrow">Burnout</p>
+            <h2>AI 사용 시간별 번아웃 위험</h2>
+          </div>
+          <div class="bar-list" id="burnoutBars"></div>
+        </article>
+
+        <article class="evidence-card">
+          <div class="section-head">
+            <p class="eyebrow">Policy</p>
+            <h2>학교 정책별 GPA 변화량</h2>
+          </div>
+          <div class="bar-list" id="policyBars"></div>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel">
+          <div class="panel-head">
+            <h2>분석 보기</h2>
+          </div>
+          <div class="control-stack" role="group" aria-label="히트맵 선택">
+            <button class="mode active" data-view="majorUseGpa">
+              <span>전공 × AI 사용 목적</span>
+              <small>학기 후 - 학기 전</small>
+            </button>
+            <button class="mode" data-view="timeBurnout">
+              <span>AI 시간 × 공부 시간</span>
+              <small>평균 번아웃 위험</small>
+            </button>
+            <button class="mode" data-view="yearDependency">
+              <span>학년 × AI 의존도</span>
+              <small>평균 시험 불안</small>
+            </button>
+            <button class="mode" data-view="skillTools">
+              <span>프롬프트 실력 × 도구 수</span>
+              <small>평균 학습 유지</small>
+            </button>
+            <button class="mode" data-view="policyUseGpa">
+              <span>학교 정책 × 사용 목적</span>
+              <small>학기 후 - 학기 전</small>
+            </button>
+          </div>
+
+          <div class="legend-block">
+            <h3>색상 기준</h3>
+            <div class="legend" id="legend"></div>
+            <p id="legendText">값이 높을수록 진하게 표시됩니다.</p>
+          </div>
+
+          <div class="upload-box" id="uploadBox">
+            <label for="csvInput">CSV 직접 불러오기</label>
+            <input id="csvInput" type="file" accept=".csv" />
+          </div>
+        </aside>
+
+        <section class="chart-area" aria-live="polite">
+          <div class="chart-title-row">
+            <div>
+              <p class="eyebrow" id="chartKicker">평균 GPA 변화량</p>
+              <h2 id="chartTitle">전공과 AI 사용 목적의 관계</h2>
+            </div>
+            <div class="sample-note" id="sampleNote">-</div>
+          </div>
+
+          <div class="heatmap-wrap">
+            <div class="heatmap" id="heatmap"></div>
+          </div>
+
+          <div class="detail-strip" id="cellDetail">
+            셀을 선택하면 해당 그룹의 표본 수와 평균값이 표시됩니다.
+          </div>
+
+          <div class="metric-explain" id="metricExplain">
+            GPA 변화량은 학기 후 GPA에서 학기 전 GPA를 뺀 평균입니다.
+          </div>
+        </section>
+      </section>
+
+    </main>
+
+    <script src="data/student_ai_impact_data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
